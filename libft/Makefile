@@ -1,76 +1,34 @@
-# Variabili
-NAME = libft.a          # Nome della libreria statica
-CC = gcc                # Compilatore
-CFLAGS = -Wall -Wextra -Werror  # Flag di compilazione
-SRCS = $(filter-out main.c, $(wildcard *.c))  # Prende tutti i file .c tranne main.c
-OBJS = $(SRCS:.c=.o)    # Converte i file .c in file .o
-MAIN = main.c           # File principale per i test
-EXEC = main_program     # Nome dell'eseguibile
+# Nome del programma
+NAME = libft.a
 
-# Regola principale
+# Compiler e flags
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror
+
+# File sorgente e oggetti
+SRCS = ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c \
+       ft_isascii.c ft_isdigit.c ft_isprint.c ft_memchar.c ft_memcmp.c \
+       ft_memcpy.c ft_memmove.c ft_memset.c ft_strchr.c ft_strdup.c \
+       ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strncmp.c ft_strnstr.c \
+       ft_strrchr.c ft_tolower.c ft_toupper.c
+OBJS = $(SRCS:.c=.o)
+
+# Regole
 all: $(NAME)
 
-# Creazione della libreria statica
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $@ $^
+	@echo "Libreria $(NAME) creata."
 
-# Compilazione dei file oggetto
-%.o: %.c
+%.o: %.c libft.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Compilazione ed esecuzione del programma principale
-#main: $(NAME) $(MAIN)
-#	$(CC) $(CFLAGS) $(MAIN) -L. -lft -o $(EXEC)
-#	./$(EXEC)
-
-# Pulizia dei file oggetto
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
+	@echo "Oggetti rimossi."
 
-# Pulizia completa (file oggetto, libreria, eseguibile)
 fclean: clean
-	rm -f $(NAME) $(EXEC)
+	@rm -f $(NAME)
+	@echo "Libreria $(NAME) rimossa."
 
-# Ricompilazione completa
 re: fclean all
-
-# Dichiarazione dei target phony
-.PHONY: all clean fclean re main
-
-###
-
-TARGET = programma
-
-# Elenco dei file sorgente .c
-SRC = file1.c file2.c file3.c  # Aggiungi manualmente i tuoi file .c qui
-
-# Elenco dei file oggetto .o
-OBJ = $(SRC:.c=.o)
-
-# Elenco dei file header .h
-HEADER = file1.h file2.h  # Aggiungi manualmente i tuoi file .h qui
-
-# Flags di compilazione
-CFLAGS = -Wall -g
-
-# Regola di default
-all: $(TARGET)
-
-# Compilazione dell'eseguibile finale
-$(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $(TARGET)
-
-# Compilazione dei file .c in .o
-%.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
-
-# Pulizia dei file oggetto e dell'eseguibile
-clean:
-	rm -f $(OBJ) $(TARGET)
-
-# Pulizia dei file generati da una compilazione
-distclean: clean
-	rm -f *~
-
-.PHONY: all clean distclean
-

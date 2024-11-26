@@ -14,3 +14,21 @@ int	ft_isalpha(int in)
 {
 	return ((in >= 'a' && in <= 'z') || (in >= 'A' && in <= 'Z'));
 }
+
+#include <stdio.h>
+
+void ft_print_result(int result)
+{
+    printf("%d", result);  // Non aggiungere '\n' o spazi, altrimenti non corrisponderà con l'output atteso
+}
+
+int main()
+{
+    char i = 'A';
+    while (i <= 'Z')
+    {
+        ft_print_result(ft_isalpha(i));  // Stampa solo '1' o '0'
+        i++;
+    }
+    return 0;
+}
